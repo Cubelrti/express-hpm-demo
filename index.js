@@ -1,6 +1,7 @@
 const path = require("path");
 const express = require("express");
 const cors = require("cors");
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const morgan = require("morgan");
 const { init: initDB, Counter } = require("./db");
 
@@ -11,6 +12,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 app.use(logger);
+
+app.use('/api', createProxyMiddleware({ target: 'https://api.weixin.qq.com', changeOrigin: true }));
 
 // 首页
 app.get("/", async (req, res) => {
