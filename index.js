@@ -13,7 +13,9 @@ app.use(express.json());
 app.use(cors());
 app.use(logger);
 
-app.use('/api', createProxyMiddleware({ target: 'https://api.weixin.qq.com', changeOrigin: true }));
+app.use('/api', createProxyMiddleware({ target: 'https://api.weixin.qq.com', changeOrigin: true, pathRewrite: {
+  '^/api': '/'
+} }));
 
 // 首页
 app.get("/", async (req, res) => {
